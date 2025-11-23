@@ -22,7 +22,7 @@ export function HeroSection() {
             <div className="space-y-4">
               <h1 className="text-5xl lg:text-7xl font-bold text-foreground leading-tight">
                 Hi, I'm{" "}
-                <span className="bg-gradient-to-r from-primary to-chart-2 bg-clip-text text-transparent">
+                <span className="bg-gradient-to-r from-primary via-chart-2 to-chart-3 bg-clip-text text-transparent">
                   John Doe
                 </span>
               </h1>
@@ -65,7 +65,7 @@ export function HeroSection() {
           <div className="flex flex-col items-center gap-8">
             <div className="relative animate-slide-up">
               <div className="animate-float">
-                <div className="absolute inset-0 bg-gradient-to-r from-primary to-chart-2 rounded-full blur-2xl opacity-30" />
+                <div className="absolute inset-0 bg-gradient-to-r from-primary via-chart-2 to-chart-3 rounded-full blur-2xl opacity-30" />
                 
                 <div className="relative w-72 h-72 lg:w-96 lg:h-96 rounded-full overflow-hidden border-4 border-primary/20 shadow-2xl">
                   <img
@@ -77,7 +77,7 @@ export function HeroSection() {
                 </div>
 
                 <div className="absolute -bottom-4 -right-4 w-24 h-24 bg-gradient-to-br from-chart-2 to-chart-3 rounded-full blur-xl opacity-60" />
-                <div className="absolute -top-4 -left-4 w-20 h-20 bg-gradient-to-br from-primary to-chart-4 rounded-full blur-xl opacity-60" />
+                <div className="absolute -top-4 -left-4 w-20 h-20 bg-gradient-to-br from-primary via-chart-1 to-chart-2 rounded-full blur-xl opacity-60" />
               </div>
             </div>
 

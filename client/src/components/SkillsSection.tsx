@@ -116,8 +116,8 @@ export function SkillsSection() {
       className="py-20 lg:py-32 relative overflow-hidden"
       data-testid="section-skills"
     >
-      <div className="absolute inset-0 bg-gradient-to-br from-primary/10 via-chart-2/10 to-chart-3/10" />
-      <div className="absolute inset-0 bg-gradient-to-tr from-transparent via-background/50 to-background/80" />
+      <div className="absolute inset-0 bg-gradient-to-br from-primary/15 via-chart-2/12 to-chart-3/15" />
+      <div className="absolute inset-0 bg-gradient-to-tr from-transparent via-background/40 to-background/70" />
       
       <div className="max-w-7xl mx-auto px-6 lg:px-8 relative">
         <div className="text-center mb-16 space-y-4">
