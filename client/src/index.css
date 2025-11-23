@@ -172,12 +172,12 @@
 
   body {
     @apply font-sans antialiased text-foreground;
-    background: linear-gradient(135deg, 
-      hsl(250, 50%, 12%) 0%, 
-      hsl(260, 55%, 15%) 25%, 
-      hsl(270, 60%, 18%) 50%, 
-      hsl(260, 55%, 15%) 75%, 
-      hsl(250, 50%, 12%) 100%
+    background: linear-gradient(180deg, 
+      hsl(234, 68%, 22%) 0%, 
+      hsl(234, 75%, 18%) 25%, 
+      hsl(234, 80%, 14%) 50%, 
+      hsl(234, 75%, 18%) 75%, 
+      hsl(234, 68%, 22%) 100%
     );
     background-attachment: fixed;
     min-height: 100vh;
@@ -185,12 +185,12 @@
 
   /* Light mode gradient override */
   body:not(.dark) {
-    background: linear-gradient(135deg, 
-      hsl(250, 40%, 96%) 0%, 
-      hsl(260, 45%, 98%) 25%, 
-      hsl(270, 50%, 99%) 50%, 
-      hsl(260, 45%, 98%) 75%, 
-      hsl(250, 40%, 96%) 100%
+    background: linear-gradient(180deg, 
+      hsl(234, 20%, 96%) 0%, 
+      hsl(234, 25%, 98%) 25%, 
+      hsl(234, 30%, 99%) 50%, 
+      hsl(234, 25%, 98%) 75%, 
+      hsl(234, 20%, 96%) 100%
     );
     background-attachment: fixed;
   }
