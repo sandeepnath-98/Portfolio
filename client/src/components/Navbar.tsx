@@ -1,10 +1,16 @@
 import { useState, useEffect } from "react";
-import { Code2, Menu, X } from "lucide-react";
+import { Code2, Menu, X, Sun, Moon } from "lucide-react";
 import { Button } from "@/components/ui/button";
 
 export function Navbar() {
   const [isScrolled, setIsScrolled] = useState(false);
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
+  const [isDark, setIsDark] = useState(() => {
+    if (typeof window !== 'undefined') {
+      return document.documentElement.classList.contains('dark');
+    }
+    return false;
+  });
 
   useEffect(() => {
     const handleScroll = () => {
@@ -13,6 +19,11 @@ export function Navbar() {
     window.addEventListener("scroll", handleScroll);
     return () => window.removeEventListener("scroll", handleScroll);
   }, []);
+
+  const toggleTheme = () => {
+    setIsDark(!isDark);
+    document.documentElement.classList.toggle('dark');
+  };
 
   const scrollToSection = (id: string) => {
     const element = document.getElementById(id);
@@ -63,6 +74,19 @@ export function Navbar() {
                 {link.label}
               </Button>
             ))}
+            <Button
+              variant="ghost"
+              size="icon"
+              onClick={toggleTheme}
+              data-testid="button-theme-toggle"
+              className="ml-2"
+            >
+              {isDark ? (
+                <Sun className="w-5 h-5" />
+              ) : (
+                <Moon className="w-5 h-5" />
+              )}
+            </Button>
           </div>
 
           <Button
@@ -95,6 +119,24 @@ export function Navbar() {
                 {link.label}
               </Button>
             ))}
+            <Button
+              variant="ghost"
+              className="w-full justify-start"
+              onClick={toggleTheme}
+              data-testid="button-mobile-theme-toggle"
+            >
+              {isDark ? (
+                <>
+                  <Sun className="w-5 h-5 mr-2" />
+                  Light Mode
+                </>
+              ) : (
+                <>
+                  <Moon className="w-5 h-5 mr-2" />
+                  Dark Mode
+                </>
+              )}
+            </Button>
           </div>
         </div>
       )}
