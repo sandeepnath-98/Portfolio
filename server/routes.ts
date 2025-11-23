@@ -1,13 +1,18 @@
 import type { Express } from "express";
 import { createServer, type Server } from "http";
 import { storage } from "./storage";
+import path from "path";
 
 export async function registerRoutes(app: Express): Promise<Server> {
-  // put application routes here
-  // prefix all routes with /api
-
-  // use storage to perform CRUD operations on the storage interface
-  // e.g. storage.insertUser(user) or storage.getUserByUsername(username)
+  app.get("/api/cv/download", (req, res) => {
+    const filePath = path.join(process.cwd(), "public", "sample-cv.pdf");
+    res.download(filePath, "Developer_CV.pdf", (err) => {
+      if (err) {
+        console.error("Error downloading CV:", err);
+        res.status(500).json({ error: "Failed to download CV" });
+      }
+    });
+  });
 
   const httpServer = createServer(app);
 
