@@ -263,7 +263,7 @@ export function ContactSection() {
         </div>
       </div>
 
-      <footer className="mt-20 pt-8 border-t border-border">
+      <footer className="mt-32 pt-12 border-t border-border">
         <div className="max-w-7xl mx-auto px-6 lg:px-8">
           <div className="flex flex-col md:flex-row items-center justify-between gap-4">
             <p className="text-sm text-muted-foreground text-center md:text-left">
