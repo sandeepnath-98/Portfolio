@@ -41,12 +41,20 @@ export function ProjectsSection() {
     // Fetch GitHub repositories
     const fetchRepos = async () => {
       try {
-        // Replace 'username' with your GitHub username
+        // Replace 'username' with your actual GitHub username
         const response = await fetch('https://api.github.com/users/username/repos?sort=updated&per_page=6');
         const data = await response.json();
-        setRepos(data);
+        
+        // Ensure data is an array before setting state
+        if (Array.isArray(data)) {
+          setRepos(data);
+        } else {
+          console.error('GitHub API returned non-array data:', data);
+          setRepos([]);
+        }
       } catch (error) {
         console.error('Error fetching GitHub repos:', error);
+        setRepos([]);
       } finally {
         setIsLoading(false);
       }
