@@ -3,25 +3,61 @@ import { useEffect, useState, useRef } from "react";
 import { Card } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
-import { SiGithub } from "react-icons/si";
-import { Star, GitFork, ExternalLink } from "lucide-react";
+import { ExternalLink, Github } from "lucide-react";
+import type { Project } from "@shared/schema";
 
-interface GitHubRepo {
-  id: number;
-  name: string;
-  description: string;
-  html_url: string;
-  homepage: string | null;
-  topics: string[];
-  stargazers_count: number;
-  forks_count: number;
-  language: string | null;
-}
+const projects: Project[] = [
+  {
+    id: "1",
+    title: "E-Commerce Platform",
+    description: "A full-featured e-commerce platform with shopping cart, payment integration, and admin dashboard. Built with modern web technologies for optimal performance.",
+    technologies: ["React", "Node.js", "PostgreSQL", "Stripe"],
+    demoUrl: "https://example.com/ecommerce",
+    repoUrl: "https://github.com/username/ecommerce",
+  },
+  {
+    id: "2",
+    title: "Task Management App",
+    description: "Collaborative task management application with real-time updates, team collaboration features, and intuitive drag-and-drop interface.",
+    technologies: ["TypeScript", "Express", "MongoDB", "Socket.io"],
+    demoUrl: "https://example.com/tasks",
+    repoUrl: "https://github.com/username/task-manager",
+  },
+  {
+    id: "3",
+    title: "Weather Dashboard",
+    description: "Beautiful weather dashboard with real-time data, forecasts, and interactive maps. Features location-based weather alerts and historical data.",
+    technologies: ["React", "Tailwind CSS", "OpenWeather API"],
+    demoUrl: "https://example.com/weather",
+    repoUrl: "https://github.com/username/weather-dashboard",
+  },
+  {
+    id: "4",
+    title: "Social Media Analytics",
+    description: "Analytics platform for social media metrics with beautiful data visualizations, automated reporting, and AI-powered insights.",
+    technologies: ["Next.js", "Chart.js", "PostgreSQL", "Python"],
+    demoUrl: "https://example.com/analytics",
+    repoUrl: "https://github.com/username/social-analytics",
+  },
+  {
+    id: "5",
+    title: "Portfolio Generator",
+    description: "Automated portfolio website generator with customizable themes, drag-and-drop builder, and one-click deployment.",
+    technologies: ["React", "Vite", "Tailwind CSS", "Firebase"],
+    repoUrl: "https://github.com/username/portfolio-gen",
+  },
+  {
+    id: "6",
+    title: "Blog Platform",
+    description: "Modern blogging platform with markdown support, SEO optimization, and content management system. Features include comments and social sharing.",
+    technologies: ["TypeScript", "Express", "MongoDB", "Next.js"],
+    demoUrl: "https://example.com/blog",
+    repoUrl: "https://github.com/username/blog-platform",
+  },
+];
 
 export function ProjectsSection() {
-  const [repos, setRepos] = useState<GitHubRepo[]>([]);
   const [isVisible, setIsVisible] = useState(false);
-  const [isLoading, setIsLoading] = useState(true);
   const sectionRef = useRef<HTMLElement>(null);
 
   useEffect(() => {
@@ -37,30 +73,6 @@ export function ProjectsSection() {
     if (sectionRef.current) {
       observer.observe(sectionRef.current);
     }
-
-    // Fetch GitHub repositories
-    const fetchRepos = async () => {
-      try {
-        // Replace 'username' with your actual GitHub username
-        const response = await fetch('https://github.com/sandeepnath-98');
-        const data = await response.json();
-        
-        // Ensure data is an array before setting state
-        if (Array.isArray(data)) {
-          setRepos(data);
-        } else {
-          console.error('GitHub API returned non-array data:', data);
-          setRepos([]);
-        }
-      } catch (error) {
-        console.error('Error fetching GitHub repos:', error);
-        setRepos([]);
-      } finally {
-        setIsLoading(false);
-      }
-    };
-
-    fetchRepos();
 
     return () => {
       observer.disconnect();
@@ -83,70 +95,42 @@ export function ProjectsSection() {
             Featured Projects
           </h2>
           <p className="text-lg text-muted-foreground max-w-2xl mx-auto">
-            Open source projects and contributions from my GitHub
+            A showcase of my recent work and personal projects
           </p>
         </div>
 
-        {isLoading ? (
-          <div className="flex gap-6 overflow-x-auto pb-4 px-2 scrollbar-thin scrollbar-thumb-primary/20 scrollbar-track-transparent">
-            {[1, 2, 3, 4, 5, 6].map((i) => (
-              <div
-                key={i}
-                className="min-w-[350px] h-[400px] bg-card/50 rounded-2xl animate-pulse flex-shrink-0"
-              />
-            ))}
-          </div>
-        ) : (
-          <div className="flex gap-6 overflow-x-auto pb-4 px-2 scrollbar-thin scrollbar-thumb-primary/20 scrollbar-track-transparent hover:scrollbar-thumb-primary/40">
-            {repos.map((repo, index) => (
-              <Card
-                key={repo.id}
-                className={`min-w-[350px] max-w-[350px] p-6 space-y-4 hover-elevate transition-all duration-300 flex flex-col flex-shrink-0 ${
-                  isVisible ? "animate-scale-in" : "opacity-0"
-                }`}
-                style={{
-                  animationDelay: `${index * 100}ms`,
-                }}
-                data-testid={`card-project-${repo.id}`}
-              >
-                <div className="flex items-start justify-between gap-2">
-                  <div className="flex items-center gap-2 text-primary">
-                    <SiGithub className="w-6 h-6" />
-                    <h3 className="text-xl font-bold text-foreground truncate" data-testid={`text-project-name-${repo.id}`}>
-                      {repo.name}
-                    </h3>
-                  </div>
-                </div>
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+          {projects.map((project, index) => (
+            <Card
+              key={project.id}
+              className={`p-6 space-y-4 hover-elevate transition-all duration-300 flex flex-col ${
+                isVisible ? "animate-scale-in" : "opacity-0"
+              }`}
+              style={{
+                animationDelay: `${index * 100}ms`,
+              }}
+              data-testid={`card-project-${project.id}`}
+            >
+              <div className="space-y-2">
+                <h3 className="text-xl font-bold text-foreground" data-testid={`text-project-name-${project.id}`}>
+                  {project.title}
+                </h3>
+              </div>
 
-                <p className="text-muted-foreground leading-relaxed flex-grow line-clamp-3" data-testid={`text-project-description-${repo.id}`}>
-                  {repo.description || "No description available"}
-                </p>
+              <p className="text-muted-foreground leading-relaxed flex-grow" data-testid={`text-project-description-${project.id}`}>
+                {project.description}
+              </p>
 
-                <div className="flex flex-wrap gap-2">
-                  {repo.topics.slice(0, 4).map((topic, topicIndex) => (
-                    <Badge key={topicIndex} variant="secondary" data-testid={`badge-topic-${repo.id}-${topicIndex}`}>
-                      {topic}
-                    </Badge>
-                  ))}
-                  {repo.language && (
-                    <Badge variant="outline" data-testid={`badge-language-${repo.id}`}>
-                      {repo.language}
-                    </Badge>
-                  )}
-                </div>
+              <div className="flex flex-wrap gap-2">
+                {project.technologies.map((tech, techIndex) => (
+                  <Badge key={techIndex} variant="secondary" data-testid={`badge-tech-${project.id}-${techIndex}`}>
+                    {tech}
+                  </Badge>
+                ))}
+              </div>
 
-                <div className="flex items-center gap-4 text-sm text-muted-foreground pt-2">
-                  <div className="flex items-center gap-1">
-                    <Star className="w-4 h-4" />
-                    <span>{repo.stargazers_count}</span>
-                  </div>
-                  <div className="flex items-center gap-1">
-                    <GitFork className="w-4 h-4" />
-                    <span>{repo.forks_count}</span>
-                  </div>
-                </div>
-
-                <div className="flex gap-2 pt-2">
+              <div className="flex gap-2 pt-2">
+                {project.repoUrl && (
                   <Button
                     size="sm"
                     variant="outline"
@@ -154,54 +138,36 @@ export function ProjectsSection() {
                     asChild
                   >
                     <a
-                      href={repo.html_url}
+                      href={project.repoUrl}
                       target="_blank"
                       rel="noopener noreferrer"
-                      data-testid={`link-repo-${repo.id}`}
+                      data-testid={`link-repo-${project.id}`}
                     >
-                      View Code
-                      <ExternalLink className="w-4 h-4 ml-1" />
+                      <Github className="w-4 h-4 mr-1" />
+                      Code
                     </a>
                   </Button>
-                  {repo.homepage && (
-                    <Button
-                      size="sm"
-                      className="flex-1"
-                      asChild
+                )}
+                {project.demoUrl && (
+                  <Button
+                    size="sm"
+                    className="flex-1"
+                    asChild
+                  >
+                    <a
+                      href={project.demoUrl}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      data-testid={`link-demo-${project.id}`}
                     >
-                      <a
-                        href={repo.homepage}
-                        target="_blank"
-                        rel="noopener noreferrer"
-                        data-testid={`link-demo-${repo.id}`}
-                      >
-                        Live Demo
-                      </a>
-                    </Button>
-                  )}
-                </div>
-              </Card>
-            ))}
-          </div>
-        )}
-
-        <div className="text-center mt-12">
-          <Button
-            size="lg"
-            variant="outline"
-            asChild
-            className="gap-2"
-          >
-            <a
-              href="https://github.com/username"
-              target="_blank"
-              rel="noopener noreferrer"
-              data-testid="link-github-profile"
-            >
-              <SiGithub className="w-5 h-5" />
-              View All Projects on GitHub
-            </a>
-          </Button>
+                      <ExternalLink className="w-4 h-4 mr-1" />
+                      Demo
+                    </a>
+                  </Button>
+                )}
+              </div>
+            </Card>
+          ))}
         </div>
       </div>
     </section>
