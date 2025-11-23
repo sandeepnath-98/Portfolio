@@ -26,6 +26,7 @@ export function Navbar() {
     { label: "Home", id: "home" },
     { label: "Skills", id: "skills" },
     { label: "Timeline", id: "timeline" },
+    { label: "Projects", id: "projects" },
     { label: "Contact", id: "contact" },
   ];
 
