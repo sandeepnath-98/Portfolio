@@ -88,20 +88,20 @@ export function ProjectsSection() {
         </div>
 
         {isLoading ? (
-          <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
+          <div className="flex gap-6 overflow-x-auto pb-4 px-2 scrollbar-thin scrollbar-thumb-primary/20 scrollbar-track-transparent">
             {[1, 2, 3, 4, 5, 6].map((i) => (
               <div
                 key={i}
-                className="h-64 bg-card/50 rounded-2xl animate-pulse"
+                className="min-w-[350px] h-[400px] bg-card/50 rounded-2xl animate-pulse flex-shrink-0"
               />
             ))}
           </div>
         ) : (
-          <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
+          <div className="flex gap-6 overflow-x-auto pb-4 px-2 scrollbar-thin scrollbar-thumb-primary/20 scrollbar-track-transparent hover:scrollbar-thumb-primary/40">
             {repos.map((repo, index) => (
               <Card
                 key={repo.id}
-                className={`p-6 space-y-4 hover-elevate transition-all duration-300 flex flex-col ${
+                className={`min-w-[350px] max-w-[350px] p-6 space-y-4 hover-elevate transition-all duration-300 flex flex-col flex-shrink-0 ${
                   isVisible ? "animate-scale-in" : "opacity-0"
                 }`}
                 style={{
