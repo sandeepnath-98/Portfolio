@@ -42,7 +42,7 @@ export function ProjectsSection() {
     const fetchRepos = async () => {
       try {
         // Replace 'username' with your actual GitHub username
-        const response = await fetch('https://api.github.com/users/username/repos?sort=updated&per_page=6');
+        const response = await fetch('https://github.com/sandeepnath-98');
         const data = await response.json();
         
         // Ensure data is an array before setting state
