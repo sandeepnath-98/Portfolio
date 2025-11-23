@@ -7,6 +7,7 @@ interface Skill {
   name: string;
   category: "Frontend" | "Backend" | "Tools";
   icon: React.ReactNode;
+  color: string;
 }
 
 const skills: Skill[] = [
@@ -15,72 +16,84 @@ const skills: Skill[] = [
     name: "React",
     category: "Frontend",
     icon: <SiReact className="w-12 h-12" />,
+    color: "#61DAFB",
   },
   {
     id: "2",
     name: "TypeScript",
     category: "Frontend",
     icon: <SiTypescript className="w-12 h-12" />,
+    color: "#3178C6",
   },
   {
     id: "3",
     name: "Next.js",
     category: "Frontend",
     icon: <SiNextdotjs className="w-12 h-12" />,
+    color: "#000000",
   },
   {
     id: "4",
     name: "Tailwind CSS",
     category: "Frontend",
     icon: <SiTailwindcss className="w-12 h-12" />,
+    color: "#06B6D4",
   },
   {
     id: "5",
     name: "Vite",
     category: "Frontend",
     icon: <SiVite className="w-12 h-12" />,
+    color: "#646CFF",
   },
   {
     id: "6",
     name: "Node.js",
     category: "Backend",
     icon: <SiNodedotjs className="w-12 h-12" />,
+    color: "#339933",
   },
   {
     id: "7",
     name: "Express",
     category: "Backend",
     icon: <SiExpress className="w-12 h-12" />,
+    color: "#000000",
   },
   {
     id: "8",
     name: "PostgreSQL",
     category: "Backend",
     icon: <SiPostgresql className="w-12 h-12" />,
+    color: "#4169E1",
   },
   {
     id: "9",
     name: "MongoDB",
     category: "Backend",
     icon: <SiMongodb className="w-12 h-12" />,
+    color: "#47A248",
   },
   {
     id: "10",
     name: "Git",
     category: "Tools",
     icon: <SiGit className="w-12 h-12" />,
+    color: "#F05032",
   },
   {
     id: "11",
     name: "Docker",
     category: "Tools",
     icon: <SiDocker className="w-12 h-12" />,
+    color: "#2496ED",
   },
   {
     id: "12",
     name: "Figma",
     category: "Tools",
     icon: <SiFigma className="w-12 h-12" />,
+    color: "#F24E1E",
   },
 ];
 
@@ -149,7 +162,7 @@ export function SkillsSection() {
                       }}
                       data-testid={`card-skill-${skill.id}`}
                     >
-                      <div className="text-primary">
+                      <div style={{ color: skill.color }}>
                         {skill.icon}
                       </div>
                       <h4 className="text-lg font-semibold text-foreground text-center" data-testid={`text-skill-name-${skill.id}`}>
