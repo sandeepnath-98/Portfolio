@@ -44,8 +44,18 @@ export const hackathonSchema = z.object({
   projectUrl: z.string().url().optional(),
 });
 
+export const hobbySchema = z.object({
+  id: z.string(),
+  title: z.string(),
+  category: z.enum(["fitness", "travel", "photography", "gaming", "sports"]),
+  description: z.string(),
+  highlights: z.array(z.string()),
+  icon: z.string(),
+});
+
 export type Skill = z.infer<typeof skillSchema>;
 export type TimelineEvent = z.infer<typeof timelineEventSchema>;
 export type SocialLink = z.infer<typeof socialLinkSchema>;
 export type Project = z.infer<typeof projectSchema>;
 export type Hackathon = z.infer<typeof hackathonSchema>;
+export type Hobby = z.infer<typeof hobbySchema>;
