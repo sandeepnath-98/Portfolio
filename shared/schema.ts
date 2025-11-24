@@ -51,7 +51,7 @@ export const hobbySchema = z.object({
   description: z.string(),
   highlights: z.array(z.string()),
   icon: z.string(),
-  image: z.string(),
+  images: z.array(z.string()),
 });
 
 export type Skill = z.infer<typeof skillSchema>;
