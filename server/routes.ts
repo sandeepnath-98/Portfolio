@@ -92,6 +92,20 @@ export async function registerRoutes(app: Express): Promise<Server> {
     }
   });
 
+  app.delete("/api/messages/:id", isAuthenticated, async (req, res) => {
+    try {
+      const storage = getStorage();
+      const success = await storage.deleteMessage(req.params.id);
+      if (success) {
+        res.json({ success: true });
+      } else {
+        res.status(404).json({ error: "Message not found" });
+      }
+    } catch (error) {
+      res.status(500).json({ error: "Failed to delete message" });
+    }
+  });
+
   const httpServer = createServer(app);
 
   return httpServer;

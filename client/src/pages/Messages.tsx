@@ -1,8 +1,8 @@
 import { useEffect, useState } from "react";
-import { useQuery } from "@tanstack/react-query";
+import { useQuery, useMutation, useQueryClient } from "@tanstack/react-query";
 import { Card } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
-import { ChevronLeft, Mail, Calendar, User, MessageSquare, LogOut } from "lucide-react";
+import { ChevronLeft, Mail, Calendar, User, MessageSquare, LogOut, Trash2 } from "lucide-react";
 import { useLocation } from "wouter";
 import { useToast } from "@/hooks/use-toast";
 import type { Message } from "@shared/schema";
@@ -19,6 +19,7 @@ async function fetchMessages(): Promise<Message[]> {
 export default function Messages() {
   const [, setLocation] = useLocation();
   const { toast } = useToast();
+  const queryClient = useQueryClient();
   const [isLoggingOut, setIsLoggingOut] = useState(false);
   const { data: messages = [], isLoading, error, refetch } = useQuery({
     queryKey: ["/api/messages"],
@@ -26,6 +27,31 @@ export default function Messages() {
     refetchOnMount: "always",
     staleTime: 0,
     gcTime: 0,
+  });
+
+  const deleteMessageMutation = useMutation({
+    mutationFn: async (messageId: string) => {
+      const response = await fetch(`/api/messages/${messageId}`, {
+        method: "DELETE",
+      });
+      if (!response.ok) throw new Error("Failed to delete message");
+      return response.json();
+    },
+    onSuccess: () => {
+      toast({
+        title: "Message deleted",
+        description: "The message has been removed.",
+      });
+      queryClient.invalidateQueries({ queryKey: ["/api/messages"] });
+      refetch();
+    },
+    onError: () => {
+      toast({
+        title: "Error",
+        description: "Failed to delete message.",
+        variant: "destructive",
+      });
+    },
   });
 
   useEffect(() => {
@@ -190,6 +216,17 @@ export default function Messages() {
                   <a href={`mailto:${message.email}?subject=Re: ${encodeURIComponent(message.subject)}`}>
                     Reply
                   </a>
+                </Button>
+                <Button
+                  variant="outline"
+                  size="sm"
+                  className="gap-1 text-destructive hover:text-destructive"
+                  onClick={() => deleteMessageMutation.mutate(message.id)}
+                  disabled={deleteMessageMutation.isPending}
+                  data-testid={`button-delete-${message.id}`}
+                >
+                  <Trash2 className="w-4 h-4" />
+                  {deleteMessageMutation.isPending ? "Deleting..." : "Delete"}
                 </Button>
               </div>
             </Card>

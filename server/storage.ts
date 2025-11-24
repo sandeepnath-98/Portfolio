@@ -17,6 +17,7 @@ const MessageModel =
 export interface IStorage {
   addMessage(message: MessageInsert): Promise<Message>;
   getMessages(): Promise<Message[]>;
+  deleteMessage(id: string): Promise<boolean>;
 }
 
 export class MongoStorage implements IStorage {
@@ -46,6 +47,11 @@ export class MongoStorage implements IStorage {
       createdAt: new Date(msg.createdAt).toISOString(),
     }));
   }
+
+  async deleteMessage(id: string): Promise<boolean> {
+    const result = await MessageModel.findByIdAndDelete(id);
+    return !!result;
+  }
 }
 
 export class MemStorage implements IStorage {
@@ -66,6 +72,10 @@ export class MemStorage implements IStorage {
     return Array.from(this.messages.values()).sort(
       (a, b) => new Date(b.createdAt).getTime() - new Date(a.createdAt).getTime()
     );
+  }
+
+  async deleteMessage(id: string): Promise<boolean> {
+    return this.messages.delete(id);
   }
 }
 
