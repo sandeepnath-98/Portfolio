@@ -38,6 +38,7 @@ export function Navbar() {
     { label: "Skills", id: "skills" },
     { label: "Timeline", id: "timeline" },
     { label: "Projects", id: "projects" },
+    { label: "Hackathons", id: "hackathons" },
     { label: "Contact", id: "contact" },
   ];
 
