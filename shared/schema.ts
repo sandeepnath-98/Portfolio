@@ -33,7 +33,19 @@ export const projectSchema = z.object({
   repoUrl: z.string().url().optional(),
 });
 
+export const hackathonSchema = z.object({
+  id: z.string(),
+  name: z.string(),
+  date: z.string(),
+  description: z.string(),
+  position: z.string(),
+  prize: z.string().optional(),
+  technologies: z.array(z.string()),
+  projectUrl: z.string().url().optional(),
+});
+
 export type Skill = z.infer<typeof skillSchema>;
 export type TimelineEvent = z.infer<typeof timelineEventSchema>;
 export type SocialLink = z.infer<typeof socialLinkSchema>;
 export type Project = z.infer<typeof projectSchema>;
+export type Hackathon = z.infer<typeof hackathonSchema>;
