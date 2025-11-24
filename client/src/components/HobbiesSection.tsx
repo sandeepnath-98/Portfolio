@@ -95,6 +95,7 @@ const categoryColors = {
 
 function HobbyCard({ hobby, index, isVisible }: { hobby: Hobby; index: number; isVisible: boolean }) {
   const [currentImageIndex, setCurrentImageIndex] = useState(0);
+  const [isHovered, setIsHovered] = useState(false);
   const IconComponent = iconMap[hobby.icon as keyof typeof iconMap];
   const colorClass = categoryColors[hobby.category];
 
@@ -108,54 +109,78 @@ function HobbyCard({ hobby, index, isVisible }: { hobby: Hobby; index: number; i
 
   return (
     <Card
-      className={`overflow-hidden hover-elevate transition-all duration-300 flex flex-col ${
+      className={`group overflow-visible hover-elevate transition-all duration-500 flex flex-col ${
         isVisible ? "animate-scale-in" : "opacity-0"
-      }`}
+      } hover:shadow-2xl hover:-translate-y-2`}
       style={{
         animationDelay: `${index * 100}ms`,
       }}
+      onMouseEnter={() => setIsHovered(true)}
+      onMouseLeave={() => setIsHovered(false)}
       data-testid={`card-hobby-${hobby.id}`}
     >
-      <div className="relative h-80 overflow-hidden">
+      <div className="relative h-80 overflow-hidden rounded-t-md">
         {hobby.images.map((image, imgIndex) => (
           <img
             key={imgIndex}
             src={image}
             alt={`${hobby.title} ${imgIndex + 1}`}
-            className={`absolute inset-0 w-full h-full object-cover transition-opacity duration-1000 ${
+            className={`absolute inset-0 w-full h-full object-cover transition-all duration-1000 ${
               imgIndex === currentImageIndex ? "opacity-100" : "opacity-0"
-            }`}
+            } group-hover:scale-110`}
             data-testid={`img-hobby-${hobby.id}-${imgIndex}`}
           />
         ))}
-        <div className="absolute inset-0 bg-gradient-to-t from-black/70 via-black/20 to-transparent" />
-        <div className={`absolute top-3 left-3 p-2 rounded-md ${colorClass} backdrop-blur-sm`}>
-          <IconComponent className="w-4 h-4" data-testid={`icon-hobby-${hobby.id}`} />
+        <div className="absolute inset-0 bg-gradient-to-t from-black/70 via-black/20 to-transparent transition-all duration-300 group-hover:from-black/80" />
+        
+        <div className={`absolute top-3 left-3 p-2 rounded-md ${colorClass} backdrop-blur-sm transition-all duration-300 ${
+          isHovered ? "scale-110 rotate-12" : ""
+        }`}>
+          <IconComponent className={`w-4 h-4 transition-transform duration-300 ${
+            isHovered ? "animate-bounce" : ""
+          }`} data-testid={`icon-hobby-${hobby.id}`} />
         </div>
+        
         <div className="absolute bottom-3 right-3 flex gap-1">
           {hobby.images.map((_, imgIndex) => (
             <div
               key={imgIndex}
-              className={`w-1.5 h-1.5 rounded-full transition-all ${
-                imgIndex === currentImageIndex ? "bg-white w-4" : "bg-white/50"
+              className={`h-1.5 rounded-full transition-all duration-500 ${
+                imgIndex === currentImageIndex 
+                  ? "bg-white w-4 scale-110" 
+                  : "bg-white/50 w-1.5 hover:bg-white/80"
               }`}
               data-testid={`indicator-${hobby.id}-${imgIndex}`}
             />
           ))}
         </div>
+
+        <div className={`absolute inset-0 bg-gradient-to-br from-white/0 via-white/0 to-white/20 opacity-0 transition-opacity duration-500 pointer-events-none ${
+          isHovered ? "opacity-100" : ""
+        }`} />
       </div>
 
-      <div className="p-4 space-y-2">
+      <div className="p-4 space-y-2 bg-card">
         <div className="flex items-center justify-between gap-2">
-          <h3 className="text-lg font-bold text-foreground" data-testid={`text-hobby-title-${hobby.id}`}>
+          <h3 className={`text-lg font-bold text-foreground transition-all duration-300 ${
+            isHovered ? "text-primary" : ""
+          }`} data-testid={`text-hobby-title-${hobby.id}`}>
             {hobby.title}
           </h3>
-          <Badge variant="secondary" className="text-xs" data-testid={`badge-category-${hobby.id}`}>
+          <Badge 
+            variant="secondary" 
+            className={`text-xs transition-all duration-300 ${
+              isHovered ? "scale-110 animate-pulse" : ""
+            }`} 
+            data-testid={`badge-category-${hobby.id}`}
+          >
             {hobby.category}
           </Badge>
         </div>
 
-        <p className="text-sm text-muted-foreground leading-snug" data-testid={`text-hobby-description-${hobby.id}`}>
+        <p className={`text-sm text-muted-foreground leading-snug transition-all duration-300 ${
+          isHovered ? "text-foreground" : ""
+        }`} data-testid={`text-hobby-description-${hobby.id}`}>
           {hobby.description}
         </p>
 
@@ -163,7 +188,12 @@ function HobbyCard({ hobby, index, isVisible }: { hobby: Hobby; index: number; i
           {hobby.highlights.map((highlight, idx) => (
             <span
               key={idx}
-              className="text-xs text-muted-foreground bg-muted px-2 py-0.5 rounded-sm"
+              className={`text-xs text-muted-foreground bg-muted px-2 py-0.5 rounded-sm transition-all duration-300 hover:bg-primary/10 hover:text-primary hover:scale-105 ${
+                isHovered ? "animate-fade-in" : ""
+              }`}
+              style={{
+                animationDelay: `${idx * 50}ms`,
+              }}
               data-testid={`text-highlight-${hobby.id}-${idx}`}
             >
               {highlight}
