@@ -2,22 +2,54 @@ import { useEffect, useState } from "react";
 import { useQuery } from "@tanstack/react-query";
 import { Card } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
-import { ChevronLeft, Mail, Calendar, User, MessageSquare } from "lucide-react";
+import { ChevronLeft, Mail, Calendar, User, MessageSquare, LogOut } from "lucide-react";
 import { useLocation } from "wouter";
+import { useToast } from "@/hooks/use-toast";
 import type { Message } from "@shared/schema";
 
 async function fetchMessages(): Promise<Message[]> {
   const response = await fetch("/api/messages");
+  if (response.status === 401) {
+    throw new Error("Unauthorized");
+  }
   if (!response.ok) throw new Error("Failed to fetch messages");
   return response.json();
 }
 
 export default function Messages() {
   const [, setLocation] = useLocation();
+  const { toast } = useToast();
+  const [isLoggingOut, setIsLoggingOut] = useState(false);
   const { data: messages = [], isLoading, error } = useQuery({
     queryKey: ["/api/messages"],
     queryFn: fetchMessages,
   });
+
+  useEffect(() => {
+    if (error?.message === "Unauthorized") {
+      setLocation("/login");
+    }
+  }, [error, setLocation]);
+
+  const handleLogout = async () => {
+    setIsLoggingOut(true);
+    try {
+      await fetch("/api/auth/logout", { method: "POST" });
+      toast({
+        title: "Logged out",
+        description: "You have been logged out.",
+      });
+      setLocation("/");
+    } catch (err) {
+      toast({
+        title: "Error",
+        description: "Failed to logout.",
+        variant: "destructive",
+      });
+    } finally {
+      setIsLoggingOut(false);
+    }
+  };
 
   const formatDate = (dateString: string) => {
     const date = new Date(dateString);
@@ -34,15 +66,28 @@ export default function Messages() {
     <div className="min-h-screen bg-background">
       <div className="max-w-5xl mx-auto px-6 lg:px-8 py-12">
         <div className="mb-8">
-          <Button
-            variant="ghost"
-            className="gap-2 mb-6"
-            onClick={() => setLocation("/")}
-            data-testid="button-back"
-          >
-            <ChevronLeft className="w-4 h-4" />
-            Back to Portfolio
-          </Button>
+          <div className="flex items-center justify-between mb-6">
+            <Button
+              variant="ghost"
+              className="gap-2"
+              onClick={() => setLocation("/")}
+              data-testid="button-back"
+            >
+              <ChevronLeft className="w-4 h-4" />
+              Back to Portfolio
+            </Button>
+            <Button
+              variant="outline"
+              size="sm"
+              className="gap-2"
+              onClick={handleLogout}
+              disabled={isLoggingOut}
+              data-testid="button-logout"
+            >
+              <LogOut className="w-4 h-4" />
+              Logout
+            </Button>
+          </div>
 
           <div className="space-y-2">
             <h1 className="text-4xl lg:text-5xl font-bold text-foreground">

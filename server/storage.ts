@@ -1,8 +1,55 @@
+import mongoose from "mongoose";
 import type { Message, MessageInsert } from "@shared/schema";
+
+const messageSchema = new mongoose.Schema(
+  {
+    name: { type: String, required: true },
+    email: { type: String, required: true },
+    subject: { type: String, required: true },
+    message: { type: String, required: true },
+    createdAt: { type: Date, default: Date.now },
+  },
+  { timestamps: true }
+);
+
+const MessageModel =
+  mongoose.models.Message || mongoose.model("Message", messageSchema);
 
 export interface IStorage {
   addMessage(message: MessageInsert): Promise<Message>;
   getMessages(): Promise<Message[]>;
+}
+
+export class MongoStorage implements IStorage {
+  async addMessage(message: MessageInsert): Promise<Message> {
+    const newMessage = new MessageModel({
+      ...message,
+      createdAt: new Date().toISOString(),
+    });
+    const saved = await newMessage.save();
+    return {
+      id: saved._id.toString(),
+      name: saved.name,
+      email: saved.email,
+      subject: saved.subject,
+      message: saved.message,
+      createdAt: saved.createdAt.toISOString(),
+    };
+  }
+
+  async getMessages(): Promise<Message[]> {
+    const messages = await MessageModel.find()
+      .sort({ createdAt: -1 })
+      .lean();
+    return messages.map((msg: any) => ({
+      id: msg._id.toString(),
+      name: msg.name,
+      email: msg.email,
+      subject: msg.subject,
+      message: msg.message,
+      createdAt: new Date(msg.createdAt).toISOString(),
+    }));
+  }
 }
 
 export class MemStorage implements IStorage {
@@ -26,4 +73,29 @@ export class MemStorage implements IStorage {
   }
 }
 
-export const storage = new MemStorage();
+let storage: IStorage;
+let adminPassword: string = process.env.ADMIN_PASSWORD || "admin123";
+
+async function initializeStorage(): Promise<IStorage> {
+  const mongoUrl = process.env.MONGODB_URL;
+
+  if (mongoUrl) {
+    try {
+      await mongoose.connect(mongoUrl);
+      console.log("[mongodb] Connected to MongoDB");
+      storage = new MongoStorage();
+    } catch (error) {
+      console.error("[mongodb] Failed to connect to MongoDB, falling back to memory storage:", error);
+      storage = new MemStorage();
+    }
+  } else {
+    console.log("[storage] No MongoDB URL provided, using in-memory storage");
+    storage = new MemStorage();
+  }
+
+  return storage;
+}
+
+export { initializeStorage };
+export const getStorage = () => storage;
+export const verifyAdminPassword = (password: string) => password === adminPassword;

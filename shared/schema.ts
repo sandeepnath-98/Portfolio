@@ -65,6 +65,10 @@ export const messageSchema = z.object({
 
 export const messageInsertSchema = messageSchema.omit({ id: true, createdAt: true });
 
+export const loginSchema = z.object({
+  password: z.string().min(1),
+});
+
 export type Skill = z.infer<typeof skillSchema>;
 export type TimelineEvent = z.infer<typeof timelineEventSchema>;
 export type SocialLink = z.infer<typeof socialLinkSchema>;
@@ -73,3 +77,4 @@ export type Hackathon = z.infer<typeof hackathonSchema>;
 export type Hobby = z.infer<typeof hobbySchema>;
 export type Message = z.infer<typeof messageSchema>;
 export type MessageInsert = z.infer<typeof messageInsertSchema>;
+export type Login = z.infer<typeof loginSchema>;

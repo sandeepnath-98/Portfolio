@@ -90,9 +90,9 @@ export function Navbar() {
             <Button
               variant="ghost"
               size="icon"
-              onClick={() => setLocation("/messages")}
+              onClick={() => setLocation("/login")}
               data-testid="button-messages"
-              title="View Messages"
+              title="View Messages (Admin)"
             >
               <Mail className="w-5 h-5" />
             </Button>
@@ -145,13 +145,13 @@ export function Navbar() {
               variant="ghost"
               className="w-full justify-start"
               onClick={() => {
-                setLocation("/messages");
+                setLocation("/login");
                 setIsMobileMenuOpen(false);
               }}
               data-testid="button-mobile-messages"
             >
               <Mail className="w-5 h-5 mr-2" />
-              Messages
+              Messages (Admin)
             </Button>
             <Button
               variant="ghost"
