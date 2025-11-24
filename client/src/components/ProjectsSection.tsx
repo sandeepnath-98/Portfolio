@@ -9,51 +9,14 @@ import type { Project } from "@shared/schema";
 const projects: Project[] = [
   {
     id: "1",
-    title: "E-Commerce Platform",
-    description: "A full-featured e-commerce platform with shopping cart, payment integration, and admin dashboard. Built with modern web technologies for optimal performance.",
-    technologies: ["React", "Node.js", "PostgreSQL", "Stripe"],
-    demoUrl: "https://example.com/ecommerce",
+    title: "Event Registration and entry Management System",
+    description: "A full-featured platform which can allow user to manger the event registration,entry pass management and ticketing system with payment gatewaywith the help linktree.",
+    technologies: ["React", "Node.js", "Mongodb", "Nodemailer"],
+    demoUrl: "https://battlearena.jigsromeo.site/",
     repoUrl: "https://github.com/username/ecommerce",
   },
-  {
-    id: "2",
-    title: "Task Management App",
-    description: "Collaborative task management application with real-time updates, team collaboration features, and intuitive drag-and-drop interface.",
-    technologies: ["TypeScript", "Express", "MongoDB", "Socket.io"],
-    demoUrl: "https://example.com/tasks",
-    repoUrl: "https://github.com/username/task-manager",
-  },
-  {
-    id: "3",
-    title: "Weather Dashboard",
-    description: "Beautiful weather dashboard with real-time data, forecasts, and interactive maps. Features location-based weather alerts and historical data.",
-    technologies: ["React", "Tailwind CSS", "OpenWeather API"],
-    demoUrl: "https://example.com/weather",
-    repoUrl: "https://github.com/username/weather-dashboard",
-  },
-  {
-    id: "4",
-    title: "Social Media Analytics",
-    description: "Analytics platform for social media metrics with beautiful data visualizations, automated reporting, and AI-powered insights.",
-    technologies: ["Next.js", "Chart.js", "PostgreSQL", "Python"],
-    demoUrl: "https://example.com/analytics",
-    repoUrl: "https://github.com/username/social-analytics",
-  },
-  {
-    id: "5",
-    title: "Portfolio Generator",
-    description: "Automated portfolio website generator with customizable themes, drag-and-drop builder, and one-click deployment.",
-    technologies: ["React", "Vite", "Tailwind CSS", "Firebase"],
-    repoUrl: "https://github.com/username/portfolio-gen",
-  },
-  {
-    id: "6",
-    title: "Blog Platform",
-    description: "Modern blogging platform with markdown support, SEO optimization, and content management system. Features include comments and social sharing.",
-    technologies: ["TypeScript", "Express", "MongoDB", "Next.js"],
-    demoUrl: "https://example.com/blog",
-    repoUrl: "https://github.com/username/blog-platform",
-  },
+  
+  
 ];
 
 export function ProjectsSection() {

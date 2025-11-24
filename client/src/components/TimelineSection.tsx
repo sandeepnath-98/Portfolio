@@ -13,36 +13,29 @@ interface TimelineEvent {
 }
 
 const events: TimelineEvent[] = [
+  
   {
     id: "1",
-    date: "2024",
-    title: "Senior Full Stack Developer",
-    description: "Leading development of enterprise-scale applications with microservices architecture",
-    tags: ["React", "Node.js", "AWS"],
-    position: "top",
-  },
-  {
-    id: "2",
-    date: "2022",
-    title: "Full Stack Developer",
-    description: "Built and maintained multiple client projects with modern tech stack",
-    tags: ["TypeScript", "PostgreSQL", "Docker"],
+    date: "2025 - Present",
+    title: "B-tech in computer science and engineering",
+    description: "Pursuing B-tech degree at Lovely Professional University, specializing in software development and data science",
+    tags: ["Degree"],
     position: "bottom",
   },
   {
-    id: "3",
-    date: "2020",
-    title: "Frontend Developer",
-    description: "Created responsive and accessible user interfaces for web applications",
-    tags: ["React", "CSS", "JavaScript"],
+    id: "2",
+    date: "2023 - 2025",
+    title: "High School ",
+    description: "Completed higher secondary education from Sainik Awasiya Mahavidiyalaya,Sallaghari Bhaktapur",
+    tags: ["12th", "highschool"],
     position: "top",
   },
   {
-    id: "4",
-    date: "2018",
-    title: "Junior Developer",
-    description: "Started professional journey in software development",
-    tags: ["HTML", "CSS", "JavaScript"],
+    id: "3",
+    date: "2016 - 2022",
+    title: "Basic School",
+    description: "Completed basic education from Sainik Awasiya Mahavidiyalaya,Teghari Kailali",
+    tags: ["10th", "Education"],
     position: "bottom",
   },
 ];

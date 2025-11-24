@@ -8,61 +8,15 @@ import type { Hackathon } from "@shared/schema";
 const hackathons: Hackathon[] = [
   {
     id: "1",
-    name: "TechCrunch Disrupt Hackathon 2024",
-    date: "March 2024",
-    description: "Built an AI-powered code review assistant that provides real-time suggestions and best practices. Implemented using GPT-4 and integrated with popular IDEs.",
-    position: "1st Place Winner",
-    prize: "$10,000",
-    technologies: ["Python", "OpenAI API", "React", "FastAPI"],
+    name: "Infornoverse",
+    date: "october 2025",
+    description: "Built a platform which can locate the EV charging stations nearby using leaflet API and opencharge API ",
+    position: "Participated to gain the experrience about the hackathon",
+    prize: "9 Lakhs",
+    technologies: ["Python", "OpenAI API", "opencharge API", "leaflet API"],
     projectUrl: "https://github.com/username/ai-code-reviewer",
   },
-  {
-    id: "2",
-    name: "Ethereum Global Hackathon",
-    date: "January 2024",
-    description: "Developed a decentralized identity verification system using blockchain technology. The solution ensures privacy while providing secure authentication.",
-    position: "Top 10 Finalist",
-    technologies: ["Solidity", "Web3.js", "Next.js", "IPFS"],
-    projectUrl: "https://github.com/username/defi-identity",
-  },
-  {
-    id: "3",
-    name: "NASA Space Apps Challenge",
-    date: "October 2023",
-    description: "Created an interactive visualization tool for satellite data that helps researchers analyze climate change patterns with real-time data processing.",
-    position: "Regional Winner",
-    prize: "$5,000",
-    technologies: ["Python", "TensorFlow", "D3.js", "Node.js"],
-    projectUrl: "https://github.com/username/climate-viz",
-  },
-  {
-    id: "4",
-    name: "Google Cloud Hackathon",
-    date: "August 2023",
-    description: "Built a serverless microservices architecture for real-time data analytics. Achieved 99.9% uptime with auto-scaling capabilities.",
-    position: "2nd Place Winner",
-    prize: "$7,500",
-    technologies: ["GCP", "Kubernetes", "Go", "PostgreSQL"],
-  },
-  {
-    id: "5",
-    name: "MLH Local Hack Day",
-    date: "June 2023",
-    description: "Developed a mobile app for mental health support using AI chatbots. Features include mood tracking and personalized recommendations.",
-    position: "Best UI/UX Award",
-    technologies: ["React Native", "Firebase", "TensorFlow", "Node.js"],
-    projectUrl: "https://github.com/username/mental-health-app",
-  },
-  {
-    id: "6",
-    name: "AngelHack Global",
-    date: "April 2023",
-    description: "Created a platform connecting local farmers directly with consumers, reducing food waste and supporting sustainable agriculture.",
-    position: "Social Impact Winner",
-    prize: "$3,000",
-    technologies: ["React", "Express", "MongoDB", "Stripe"],
-    projectUrl: "https://github.com/username/farm-connect",
-  },
+  
 ];
 
 export function HackathonSection() {
@@ -130,12 +84,22 @@ export function HackathonSection() {
                   <span>{hackathon.date}</span>
                 </div>
 
-                <div className="flex items-center gap-2">
-                  <Badge variant="default" data-testid={`badge-position-${hackathon.id}`}>
+                <div className="flex items-center gap-2 flex-wrap">
+                  {/* Position can be long; render as a truncating inline element so it
+                      doesn't force badges out of the card. */}
+                  <span
+                    className="text-xs text-muted-foreground bg-muted px-2 py-0.5 rounded-sm max-w-[70%] truncate block"
+                    data-testid={`badge-position-${hackathon.id}`}
+                  >
                     {hackathon.position}
-                  </Badge>
+                  </span>
+
                   {hackathon.prize && (
-                    <Badge variant="secondary" data-testid={`badge-prize-${hackathon.id}`}>
+                    <Badge
+                      variant="secondary"
+                      data-testid={`badge-prize-${hackathon.id}`}
+                      className="flex-shrink-0"
+                    >
                       {hackathon.prize}
                     </Badge>
                   )}

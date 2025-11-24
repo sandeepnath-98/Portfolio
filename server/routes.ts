@@ -1,5 +1,6 @@
-import type { Express, Request, Response } from "express";
+import express, { type Express, Request, Response } from "express";
 import { createServer, type Server } from "http";
+import fs from "node:fs";
 import session from "express-session";
 import { getStorage, verifyAdminPassword } from "./storage";
 import { messageInsertSchema, loginSchema } from "@shared/schema";
@@ -12,6 +13,10 @@ declare module "express-session" {
 }
 
 export async function registerRoutes(app: Express): Promise<Server> {
+  // Serve static files from the `public` directory so assets like
+  // `/RESUME.pdf` are available in both dev and production modes.
+  app.use(express.static(path.join(process.cwd(), "public")));
+
   app.use(
     session({
       secret: process.env.SESSION_SECRET || "dev-secret-key",
@@ -34,11 +39,34 @@ export async function registerRoutes(app: Express): Promise<Server> {
   };
 
   app.get("/api/cv/download", (req, res) => {
-    const filePath = path.join(process.cwd(), "public", "sample-cv.pdf");
-    res.download(filePath, "Developer_CV.pdf", (err) => {
+    // Prefer the actual RESUME.pdf in `public/` if present. Fall back to
+    // `sample-cv.pdf` for backwards compatibility.
+    const publicDir = path.join(process.cwd(), "public");
+    const preferred = path.join(publicDir, "RESUME.pdf");
+    const fallback = path.join(publicDir, "sample-cv.pdf");
+
+    let filePath: string | null = null;
+    let downloadName = "RESUME.pdf";
+
+    if (fs.existsSync(preferred)) {
+      filePath = preferred;
+      downloadName = path.basename(preferred);
+    } else if (fs.existsSync(fallback)) {
+      filePath = fallback;
+      downloadName = path.basename(fallback);
+    }
+
+    if (!filePath) {
+      res.status(404).json({ error: "CV not found" });
+      return;
+    }
+
+    res.download(filePath, downloadName, (err) => {
       if (err) {
         console.error("Error downloading CV:", err);
-        res.status(500).json({ error: "Failed to download CV" });
+        if (!res.headersSent) {
+          res.status(500).json({ error: "Failed to download CV" });
+        }
       }
     });
   });

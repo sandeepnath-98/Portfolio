@@ -36,6 +36,8 @@ export function Navbar() {
     setIsDark(!isDark);
   };
 
+  const [showLogoImage, setShowLogoImage] = useState(true);
+
   const scrollToSection = (id: string) => {
     const element = document.getElementById(id);
     if (element) {
@@ -70,9 +72,19 @@ export function Navbar() {
             className="flex items-center gap-3 hover-elevate active-elevate-2 rounded-md px-3 py-2 -ml-3"
             data-testid="button-logo"
           >
-            <div className="w-10 h-10 rounded-full bg-primary flex items-center justify-center">
-              <Code2 className="w-6 h-6 text-primary-foreground" />
-            </div>
+            {showLogoImage ? (
+              <img
+                src="/logo.png"
+                alt="Logo"
+                className="w-10 h-10 rounded-full object-cover"
+                onError={() => setShowLogoImage(false)}
+                data-testid="img-logo"
+              />
+            ) : (
+              <div className="w-10 h-10 rounded-full bg-primary flex items-center justify-center">
+                <Code2 className="w-6 h-6 text-primary-foreground" />
+              </div>
+            )}
             <span className="text-xl font-semibold text-foreground">My Portfolio</span>
           </button>
 

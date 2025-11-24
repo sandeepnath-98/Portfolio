@@ -1,12 +1,15 @@
 import { Download } from "lucide-react";
 import { Button } from "@/components/ui/button";
-import developerPhoto from "@assets/generated_images/professional_developer_headshot_portrait.png";
+import developerPhoto from "@assets/profileimage/profileimage.png";
 
 export function HeroSection() {
   const handleDownloadCV = () => {
+    // Use the server endpoint which will serve the correct file from
+    // `public/` both in dev and production. This avoids relying on
+    // Vite/Express static paths that differ between modes.
     const link = document.createElement("a");
-    link.href = "/api/cv/download";
-    link.download = "Developer_CV.pdf";
+    link.href = "/RESUME.pdf";
+    link.download = "RESUME.pdf";
     link.click();
   };
 
@@ -23,7 +26,7 @@ export function HeroSection() {
               <h1 className="text-5xl lg:text-7xl font-bold text-foreground leading-tight">
                 Hi, I'm{" "}
                 <span className="bg-gradient-to-r from-primary via-chart-2 to-chart-3 bg-clip-text text-transparent">
-                  John Doe
+                  Sandeep Nath
                 </span>
               </h1>
               <p className="text-2xl lg:text-3xl font-semibold text-muted-foreground">

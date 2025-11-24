@@ -16,36 +16,21 @@ interface SocialLink {
 }
 
 const socialLinks: SocialLink[] = [
-  {
-    platform: "youtube",
-    url: "https://youtube.com",
-    icon: <SiYoutube className="w-5 h-5" />,
-    label: "YouTube",
-  },
+  
   {
     platform: "github",
-    url: "https://github.com",
+    url: "https://github.com/sandeepnath-98",
     icon: <SiGithub className="w-5 h-5" />,
     label: "GitHub",
   },
-  {
-    platform: "npmdemon",
-    url: "https://npm.io",
-    icon: <SiSpotify className="w-5 h-5" />,
-    label: "npm.demon",
-  },
+  
   {
     platform: "instagram",
-    url: "https://instagram.com",
+    url: "https://www.instagram.com/sandeep_nath_98/",
     icon: <SiInstagram className="w-5 h-5" />,
     label: "Instagram",
   },
-  {
-    platform: "spotify",
-    url: "https://spotify.com",
-    icon: <SiSpotify className="w-5 h-5" />,
-    label: "Spotify",
-  },
+  
 ];
 
 export function ContactSection() {
@@ -259,11 +244,11 @@ export function ContactSection() {
                 <div>
                   <h4 className="text-sm font-medium text-muted-foreground mb-1">Email</h4>
                   <a
-                    href="mailto:hello@example.com"
+                    href="mailto:sandeepnath9898@gmail.com"
                     className="text-lg font-semibold text-foreground hover:text-primary transition-colors"
                     data-testid="link-email"
                   >
-                    hello@example.com
+                    sandeepnath9898@gmail.com
                   </a>
                 </div>
               </div>
