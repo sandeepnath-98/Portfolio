@@ -57,30 +57,45 @@ Preferred communication style: Simple, everyday language.
 
 **API Structure**
 - RESTful API endpoints under `/api` prefix
-- Single endpoint implemented: `/api/cv/download` for serving CV PDF file
+- Endpoints implemented:
+  - `GET /api/cv/download` for serving CV PDF file
+  - `POST /api/messages` for submitting contact form messages
+  - `GET /api/messages` (authenticated only) for retrieving stored messages
+  - `POST /api/auth/login` for admin authentication with password
+  - `POST /api/auth/logout` for ending admin session
+  - `GET /api/auth/check` for checking authentication status
 - Request body parsing with JSON verification support
-- In-memory storage implementation via `MemStorage` class
+- Session-based authentication using express-session
 
 ### Data Storage Solutions
 
 **Current Implementation**
-- **In-Memory Storage**: `MemStorage` class implementing `IStorage` interface
-- User data stored in JavaScript Map structure
-- No persistent database currently connected
+- **Hybrid Storage with Failover**:
+  - Primary: **MongoDB** via Mongoose ODM for persistent message storage
+  - Fallback: **In-Memory Storage** (`MemStorage` class) if MongoDB unavailable
+  - Automatic detection and graceful degradation with console logging
+- Message data stored with timestamps and metadata
 
-**Configured But Unused**
-- **Drizzle ORM** configured for PostgreSQL with Neon serverless driver
-- Database schema defined in `shared/schema.ts` but not actively used
-- Migration directory configured (`./migrations`)
-- Schema exports Zod validators for skills, timeline events, and social links
+**Message Storage Architecture**
+- MongoDB connection via `MONGODB_URL` environment variable
+- Mongoose schema with auto-timestamping for messages
+- In-memory Map structure for fallback storage
+- Messages sorted by creation date (newest first)
+
+**Authentication System**
+- Session-based authentication using express-session
+- Admin password stored as `ADMIN_PASSWORD` environment variable
+- Session cookies with 24-hour expiration
+- Secure cookie settings (httpOnly, secure in production)
+- Protected routes: `/api/messages` requires authentication
 
 **Data Models**
-- `User` model with id and username (insertable variant exists)
-- `Skill` model with proficiency tracking and categorization
-- `TimelineEvent` model for professional history
-- `SocialLink` model for contact information
+- `Message`: Contact form submissions with name, email, subject, message, createdAt
+- `MessageInsert`: Zod schema for message validation (excluding id and createdAt)
+- `Login`: Zod schema for password validation
+- Additional models in schema: Skill, TimelineEvent, SocialLink, Project, Hackathon, Hobby
 
-**Design Decision**: The application currently uses hardcoded data in React components rather than fetching from a database. This approach was likely chosen for simplicity and to avoid database setup requirements. The Drizzle configuration suggests future plans for database integration.
+**Design Decision**: Messages are persisted to MongoDB with in-memory fallback for reliability. Admin access to messages requires password authentication via session-based login. Portfolio data remains hardcoded for simplicity.
 
 ### External Dependencies
 
