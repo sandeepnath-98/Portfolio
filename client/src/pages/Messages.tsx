@@ -20,9 +20,12 @@ export default function Messages() {
   const [, setLocation] = useLocation();
   const { toast } = useToast();
   const [isLoggingOut, setIsLoggingOut] = useState(false);
-  const { data: messages = [], isLoading, error } = useQuery({
+  const { data: messages = [], isLoading, error, refetch } = useQuery({
     queryKey: ["/api/messages"],
     queryFn: fetchMessages,
+    refetchOnMount: "always",
+    staleTime: 0,
+    gcTime: 0,
   });
 
   useEffect(() => {
@@ -30,6 +33,11 @@ export default function Messages() {
       setLocation("/login");
     }
   }, [error, setLocation]);
+
+  // Refetch messages when component mounts
+  useEffect(() => {
+    refetch();
+  }, [refetch]);
 
   const handleLogout = async () => {
     setIsLoggingOut(true);
@@ -63,7 +71,7 @@ export default function Messages() {
   };
 
   return (
-    <div className="min-h-screen bg-background">
+    <div className="min-h-screen bg-background text-foreground">
       <div className="max-w-5xl mx-auto px-6 lg:px-8 py-12">
         <div className="mb-8">
           <div className="flex items-center justify-between mb-6">
