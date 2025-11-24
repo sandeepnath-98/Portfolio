@@ -95,7 +95,28 @@ Preferred communication style: Simple, everyday language.
 - `Login`: Zod schema for password validation
 - Additional models in schema: Skill, TimelineEvent, SocialLink, Project, Hackathon, Hobby
 
-**Design Decision**: Messages are persisted to MongoDB with in-memory fallback for reliability. Admin access to messages requires password authentication via session-based login. Portfolio data remains hardcoded for simplicity.
+**Design Decision**: Messages are persisted to MongoDB with in-memory fallback for reliability. If MongoDB_URL is not set or connection fails, the system gracefully falls back to in-memory storage. Admin access to messages requires password authentication via session-based login. Portfolio data remains hardcoded for simplicity.
+
+## Admin Access & Message Management
+
+### Features
+- **Contact Form** (`/`): Submit name, email, subject, and message - automatically stored to database/memory
+- **Admin Login** (`/login`): Secure password-based authentication using express-session
+- **Messages Inbox** (`/messages`): View all submitted messages (admin-only, requires login)
+- **Session Management**: 24-hour authenticated sessions with secure httpOnly cookies
+- **Logout**: End session and return to portfolio homepage
+
+### Environment Requirements
+- `ADMIN_PASSWORD`: Set as a secret for admin authentication
+- `MONGODB_URL`: Optional MongoDB connection string for persistent storage (falls back to in-memory if not available)
+
+### Authentication Flow
+1. User clicks "Messages (Admin)" icon in navbar
+2. Redirected to login page (`/login`)
+3. Enter admin password
+4. Session created, redirected to messages inbox
+5. All submitted messages displayed in reverse chronological order
+6. Click "Logout" to end session
 
 ### External Dependencies
 
