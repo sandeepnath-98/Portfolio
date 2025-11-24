@@ -3,6 +3,11 @@ import { Card } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { Dumbbell, Plane, Camera, Gamepad2, Trophy } from "lucide-react";
 import type { Hobby } from "@shared/schema";
+import fitnessImage from "@assets/stock_images/person_doing_fitness_94d2774e.jpg";
+import travelImage from "@assets/stock_images/travel_adventure_sce_6d8398b4.jpg";
+import photographyImage from "@assets/stock_images/photographer_taking__a150f388.jpg";
+import gamingImage from "@assets/stock_images/gaming_esports_playe_5ec071dc.jpg";
+import sportsImage from "@assets/stock_images/sports_basketball_or_49a977fa.jpg";
 
 const hobbies: Hobby[] = [
   {
@@ -12,6 +17,7 @@ const hobbies: Hobby[] = [
     description: "Committed to maintaining a healthy lifestyle through regular workouts and mindful practices. From strength training to yoga, fitness keeps me energized and focused.",
     highlights: ["Morning runs", "Gym 4x/week", "Yoga sessions", "Nutrition tracking"],
     icon: "dumbbell",
+    image: fitnessImage,
   },
   {
     id: "2",
@@ -20,6 +26,7 @@ const hobbies: Hobby[] = [
     description: "Exploring new cultures and destinations fuels my creativity. Every trip teaches me something new and broadens my perspective on life and problem-solving.",
     highlights: ["15+ countries visited", "Backpacking Europe", "Mountain hiking", "Local cuisine explorer"],
     icon: "plane",
+    image: travelImage,
   },
   {
     id: "3",
@@ -28,6 +35,7 @@ const hobbies: Hobby[] = [
     description: "Capturing moments through my lens helps me appreciate details and composition. Street photography and landscapes are my favorite subjects to shoot.",
     highlights: ["Street photography", "Landscape shots", "Event coverage", "Photo editing"],
     icon: "camera",
+    image: photographyImage,
   },
   {
     id: "4",
@@ -36,6 +44,7 @@ const hobbies: Hobby[] = [
     description: "Gaming isn't just entertainment—it's about strategy, teamwork, and continuous improvement. From competitive matches to story-driven adventures, I love the challenge.",
     highlights: ["Strategy games", "Team competitions", "Speedrunning", "Game design analysis"],
     icon: "gamepad",
+    image: gamingImage,
   },
   {
     id: "5",
@@ -44,6 +53,7 @@ const hobbies: Hobby[] = [
     description: "Whether playing or watching, sports teach valuable lessons about teamwork, perseverance, and discipline. Active participation keeps me competitive and team-oriented.",
     highlights: ["Weekend soccer", "Basketball league", "Tennis matches", "Marathon runner"],
     icon: "trophy",
+    image: sportsImage,
   },
 ];
 
@@ -111,7 +121,7 @@ export function HobbiesSection() {
             return (
               <Card
                 key={hobby.id}
-                className={`p-6 space-y-4 hover-elevate transition-all duration-300 flex flex-col ${
+                className={`overflow-hidden hover-elevate transition-all duration-300 flex flex-col ${
                   isVisible ? "animate-scale-in" : "opacity-0"
                 }`}
                 style={{
@@ -119,38 +129,50 @@ export function HobbiesSection() {
                 }}
                 data-testid={`card-hobby-${hobby.id}`}
               >
-                <div className="flex items-start gap-4">
-                  <div className={`p-3 rounded-lg ${colorClass}`}>
-                    <IconComponent className="w-6 h-6" data-testid={`icon-hobby-${hobby.id}`} />
-                  </div>
-                  <div className="flex-1">
-                    <h3 className="text-xl font-bold text-foreground" data-testid={`text-hobby-title-${hobby.id}`}>
-                      {hobby.title}
-                    </h3>
-                    <Badge variant="secondary" className="mt-1" data-testid={`badge-category-${hobby.id}`}>
-                      {hobby.category}
-                    </Badge>
+                <div className="relative h-48 overflow-hidden">
+                  <img
+                    src={hobby.image}
+                    alt={hobby.title}
+                    className="w-full h-full object-cover"
+                    data-testid={`img-hobby-${hobby.id}`}
+                  />
+                  <div className="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent" />
+                  <div className={`absolute top-4 left-4 p-2 rounded-lg ${colorClass} backdrop-blur-sm`}>
+                    <IconComponent className="w-5 h-5" data-testid={`icon-hobby-${hobby.id}`} />
                   </div>
                 </div>
 
-                <p className="text-muted-foreground leading-relaxed" data-testid={`text-hobby-description-${hobby.id}`}>
-                  {hobby.description}
-                </p>
+                <div className="p-6 space-y-4 flex flex-col flex-grow">
+                  <div className="space-y-2">
+                    <div className="flex items-center justify-between gap-2">
+                      <h3 className="text-xl font-bold text-foreground" data-testid={`text-hobby-title-${hobby.id}`}>
+                        {hobby.title}
+                      </h3>
+                      <Badge variant="secondary" data-testid={`badge-category-${hobby.id}`}>
+                        {hobby.category}
+                      </Badge>
+                    </div>
+                  </div>
 
-                <div className="space-y-2 flex-grow">
-                  <p className="text-sm font-semibold text-foreground">Highlights:</p>
-                  <ul className="space-y-1">
-                    {hobby.highlights.map((highlight, idx) => (
-                      <li 
-                        key={idx} 
-                        className="text-sm text-muted-foreground flex items-center gap-2"
-                        data-testid={`text-highlight-${hobby.id}-${idx}`}
-                      >
-                        <span className="w-1.5 h-1.5 rounded-full bg-primary" />
-                        {highlight}
-                      </li>
-                    ))}
-                  </ul>
+                  <p className="text-muted-foreground leading-relaxed" data-testid={`text-hobby-description-${hobby.id}`}>
+                    {hobby.description}
+                  </p>
+
+                  <div className="space-y-2 flex-grow">
+                    <p className="text-sm font-semibold text-foreground">Highlights:</p>
+                    <ul className="space-y-1">
+                      {hobby.highlights.map((highlight, idx) => (
+                        <li 
+                          key={idx} 
+                          className="text-sm text-muted-foreground flex items-center gap-2"
+                          data-testid={`text-highlight-${hobby.id}-${idx}`}
+                        >
+                          <span className="w-1.5 h-1.5 rounded-full bg-primary" />
+                          {highlight}
+                        </li>
+                      ))}
+                    </ul>
+                  </div>
                 </div>
               </Card>
             );
