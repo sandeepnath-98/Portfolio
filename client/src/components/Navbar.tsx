@@ -7,10 +7,20 @@ export function Navbar() {
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
   const [isDark, setIsDark] = useState(() => {
     if (typeof window !== 'undefined') {
-      return document.documentElement.classList.contains('dark');
+      const saved = localStorage.getItem('theme');
+      return saved ? saved === 'dark' : true;
     }
-    return false;
+    return true;
   });
+
+  useEffect(() => {
+    if (isDark) {
+      document.documentElement.classList.add('dark');
+    } else {
+      document.documentElement.classList.remove('dark');
+    }
+    localStorage.setItem('theme', isDark ? 'dark' : 'light');
+  }, [isDark]);
 
   useEffect(() => {
     const handleScroll = () => {
@@ -22,7 +32,6 @@ export function Navbar() {
 
   const toggleTheme = () => {
     setIsDark(!isDark);
-    document.documentElement.classList.toggle('dark');
   };
 
   const scrollToSection = (id: string) => {
