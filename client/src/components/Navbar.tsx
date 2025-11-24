@@ -1,8 +1,10 @@
 import { useState, useEffect } from "react";
-import { Code2, Menu, X, Sun, Moon } from "lucide-react";
+import { Code2, Menu, X, Sun, Moon, Mail } from "lucide-react";
 import { Button } from "@/components/ui/button";
+import { useLocation } from "wouter";
 
 export function Navbar() {
+  const [, setLocation] = useLocation();
   const [isScrolled, setIsScrolled] = useState(false);
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
   const [isDark, setIsDark] = useState(() => {
@@ -88,6 +90,15 @@ export function Navbar() {
             <Button
               variant="ghost"
               size="icon"
+              onClick={() => setLocation("/messages")}
+              data-testid="button-messages"
+              title="View Messages"
+            >
+              <Mail className="w-5 h-5" />
+            </Button>
+            <Button
+              variant="ghost"
+              size="icon"
               onClick={toggleTheme}
               data-testid="button-theme-toggle"
               className="ml-2"
@@ -130,6 +141,18 @@ export function Navbar() {
                 {link.label}
               </Button>
             ))}
+            <Button
+              variant="ghost"
+              className="w-full justify-start"
+              onClick={() => {
+                setLocation("/messages");
+                setIsMobileMenuOpen(false);
+              }}
+              data-testid="button-mobile-messages"
+            >
+              <Mail className="w-5 h-5 mr-2" />
+              Messages
+            </Button>
             <Button
               variant="ghost"
               className="w-full justify-start"

@@ -54,9 +54,22 @@ export const hobbySchema = z.object({
   images: z.array(z.string()),
 });
 
+export const messageSchema = z.object({
+  id: z.string(),
+  name: z.string(),
+  email: z.string().email(),
+  subject: z.string(),
+  message: z.string(),
+  createdAt: z.string(),
+});
+
+export const messageInsertSchema = messageSchema.omit({ id: true, createdAt: true });
+
 export type Skill = z.infer<typeof skillSchema>;
 export type TimelineEvent = z.infer<typeof timelineEventSchema>;
 export type SocialLink = z.infer<typeof socialLinkSchema>;
 export type Project = z.infer<typeof projectSchema>;
 export type Hackathon = z.infer<typeof hackathonSchema>;
 export type Hobby = z.infer<typeof hobbySchema>;
+export type Message = z.infer<typeof messageSchema>;
+export type MessageInsert = z.infer<typeof messageInsertSchema>;

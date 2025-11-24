@@ -1,11 +1,12 @@
 
 import { useEffect, useState, useRef } from "react";
 import { SiInstagram, SiLinkedin, SiGithub, SiYoutube, SiSpotify } from "react-icons/si";
-import { Mail, ArrowUp, Send } from "lucide-react";
+import { Mail, ArrowUp, Send, CheckCircle } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
 import { Card } from "@/components/ui/card";
+import { useToast } from "@/hooks/use-toast";
 
 interface SocialLink {
   platform: string;
@@ -50,6 +51,8 @@ const socialLinks: SocialLink[] = [
 export function ContactSection() {
   const [isVisible, setIsVisible] = useState(false);
   const [showScrollTop, setShowScrollTop] = useState(false);
+  const [isSubmitting, setIsSubmitting] = useState(false);
+  const [submitSuccess, setSubmitSuccess] = useState(false);
   const [formData, setFormData] = useState({
     name: "",
     email: "",
@@ -57,6 +60,7 @@ export function ContactSection() {
     message: "",
   });
   const sectionRef = useRef<HTMLElement>(null);
+  const { toast } = useToast();
 
   useEffect(() => {
     const observer = new IntersectionObserver(
@@ -88,10 +92,40 @@ export function ContactSection() {
     window.scrollTo({ top: 0, behavior: "smooth" });
   };
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    console.log("Form submitted:", formData);
-    // Handle form submission
+    setIsSubmitting(true);
+    
+    try {
+      const response = await fetch("/api/messages", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(formData),
+      });
+
+      if (!response.ok) {
+        throw new Error("Failed to send message");
+      }
+
+      setSubmitSuccess(true);
+      setFormData({ name: "", email: "", subject: "", message: "" });
+      toast({
+        title: "Message sent!",
+        description: "Thank you for reaching out. I'll get back to you soon.",
+      });
+
+      setTimeout(() => setSubmitSuccess(false), 3000);
+    } catch (error) {
+      toast({
+        title: "Error",
+        description: "Failed to send message. Please try again.",
+        variant: "destructive",
+      });
+    } finally {
+      setIsSubmitting(false);
+    }
   };
 
   const handleChange = (
@@ -192,9 +226,24 @@ export function ContactSection() {
                 />
               </div>
 
-              <Button type="submit" size="lg" className="w-full gap-2">
-                <Send className="w-5 h-5" />
-                Send Message
+              <Button 
+                type="submit" 
+                size="lg" 
+                className="w-full gap-2"
+                disabled={isSubmitting}
+                data-testid="button-send-message"
+              >
+                {submitSuccess ? (
+                  <>
+                    <CheckCircle className="w-5 h-5" />
+                    Message Sent!
+                  </>
+                ) : (
+                  <>
+                    <Send className="w-5 h-5" />
+                    {isSubmitting ? "Sending..." : "Send Message"}
+                  </>
+                )}
               </Button>
             </form>
           </div>
